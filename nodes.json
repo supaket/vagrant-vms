@@ -23,7 +23,16 @@
     },
     "gitlab.example.com": {
       ":ip": "192.168.32.21",
-      "ports":[{":guest":8443,":host":8443}],
+      "ports":[{
+          ":host": 8443,
+          ":guest": 8443,
+          ":id": "port-1"
+        },
+        {
+          ":host": 8080,
+          ":guest": 8080,
+          ":id": "port-2"
+        }],
       ":memory": 1024,
       ":common": "bootstrap-common.sh",
       ":bootstrap": "bootstrap-gitlab.sh"
