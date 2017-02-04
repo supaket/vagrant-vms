@@ -1,21 +1,28 @@
 # vi: set ft=ruby :
 
-# Builds Puppet Master and multiple Puppet Agent Nodes using JSON config file
-# Author: Gary A. Stafford
-
 # read vm and chef configurations from JSON files
 nodes_config = (JSON.parse(File.read("nodes.json")))['nodes']
 
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "bento/ubuntu-16.04"
+
+  if Vagrant.has_plugin?("vagrant-cachier")
+      config.cache.scope = :box
+   config.cache.synced_folder_opts = {
+     type: :nfs,
+
+     mount_options: ['rw', 'vers=3', 'tcp', 'nolock']
+   }
+  end
 
   nodes_config.each do |node|
+
     node_name   = node[0] # name of node
     node_values = node[1] # content of node
 
-    config.vm.define node_name do |config|    
+    config.vm.define node_name do |config|
       # configures all forwarding ports in JSON array
       ports = node_values['ports']
       ports.each do |port|
@@ -33,6 +40,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         vb.customize ["modifyvm", :id, "--name", node_name]
       end
 
+      config.vm.provision :shell, :path => node_values[':common']
       config.vm.provision :shell, :path => node_values[':bootstrap']
     end
   end

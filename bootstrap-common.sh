@@ -9,5 +9,4 @@ sudo apt-get install -y docker.io
 sudo systemctl status docker
 
 sudo gpasswd -a vagrant docker
-
 sudo service docker restart

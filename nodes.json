@@ -1,21 +1,38 @@
 {
   "nodes": {
-    "puppet.example.com": {
-      ":ip": "192.168.32.5",
-      "ports": [],
-      ":memory": 1024,
-      ":bootstrap": "bootstrap-master.sh"
-    },
-    "node01.example.com": {
+    "tc.example.com": {
       ":ip": "192.168.32.10",
       "ports": [],
       ":memory": 1024,
+      ":common": "bootstrap-common.sh",
+      ":bootstrap": "bootstrap-master.sh"
+    },
+    "agent1.example.com": {
+      ":ip": "192.168.32.11",
+      "ports": [],
+      ":memory": 512,
+      ":common": "bootstrap-common.sh",
       ":bootstrap": "bootstrap-node.sh"
     },
-    "node02.example.com": {
-      ":ip": "192.168.32.20",
+    "agent2.example.com": {
+      ":ip": "192.168.32.12",
+      "ports": [],
+      ":memory": 512,
+      ":common": "bootstrap-common.sh",
+      ":bootstrap": "bootstrap-node.sh"
+    },
+    "gitlab.example.com": {
+      ":ip": "192.168.32.21",
+      "ports":[{":guest":8443,":host":8443}],
+      ":memory": 1024,
+      ":common": "bootstrap-common.sh",
+      ":bootstrap": "bootstrap-gitlab.sh"
+    },
+    "staging.example.com": {
+      ":ip": "192.168.32.22",
       "ports": [],
       ":memory": 1024,
+      ":common": "bootstrap-common.sh",
       ":bootstrap": "bootstrap-node.sh"
     }
   }
